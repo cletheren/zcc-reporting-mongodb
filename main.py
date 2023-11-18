@@ -12,6 +12,7 @@ from zoom.reports import (
     ENGAGEMENT_TYPES,
 )
 
+# Load environment variables from local .env file
 load_dotenv()
 ZOOM_ACCOUNT_ID = os.getenv("ZOOM_ACCOUNT_ID")
 ZOOM_CLIENT_ID = os.getenv("ZOOM_CLIENT_ID")
