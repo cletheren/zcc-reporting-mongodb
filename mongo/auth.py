@@ -5,7 +5,7 @@ from pymongo import MongoClient
 
 class Cluster:
     def __init__(self, uri: str) -> None:
-        self.client = MongoClient(uri, tlsCAFile=certifi.where())
+        self.connection = MongoClient(uri, tlsCAFile=certifi.where())
 
 
 class Collection:
@@ -19,10 +19,12 @@ class Client:
         self.uri = f"mongodb+srv://{username}:{password}@cluster0.ehaeufa.mongodb.net/?retryWrites=true&w=majority"
         self.cluster = Cluster(self.uri)
         self.databases = {
-            "voice": Collection(self.cluster, database, "queue_detail_voice"),
-            "video": Collection(self.cluster, database, "queue_detail_video"),
-            "chat": Collection(self.cluster, database, "queue_detail_chat"),
-            "queue_report_voice": Collection(
-                self.cluster, database, "queue_report_voice"
-            ),
+            "queue_detail_voice": Collection(self.cluster, database, "queue_detail_voice"),
+            "queue_detail_video": Collection(self.cluster, database, "queue_detail_video"),
+            "queue_detail_chat": Collection(self.cluster, database, "queue_detail_chat"),
+            "queue_detail_sms": Collection(self.cluster, database, "queue_detail_sms"),
+            "queue_report_voice": Collection(self.cluster, database, "queue_report_voice"),
+            "queue_report_video": Collection(self.cluster, database, "queue_report_video"),
+            "queue_report_chat": Collection(self.cluster, database, "queue_report_chat"),
+            "queue_report_sms": Collection(self.cluster, database, "queue_report_sms"),
         }

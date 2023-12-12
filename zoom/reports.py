@@ -15,7 +15,7 @@ ENGAGEMENT_TYPES = ["voice", "video", "chat", "sms"]
 INTERVALS = ["15_minutes", "30_minutes", "1_hour", "1_day", "1_week", "1_month"]
 
 
-def historical_detail_report(client: Client, engagement_type: str) -> list[dict]:
+def historical_detail_report(client: Client, engagement_type: str, date_range: tuple) -> list[dict]:
     if engagement_type not in ENGAGEMENT_TYPES:
         raise ValueError("Please check your engagement type.")
     output = []
@@ -25,8 +25,8 @@ def historical_detail_report(client: Client, engagement_type: str) -> list[dict]
         "next_page_token": "",
         "page_size": 100,
         "channel_types": [engagement_type],
-        "from": "2023-05-01",
-        "to": "2023-05-31",
+        "from": date_range[0],
+        "to": date_range[1],
     }
     while True:
         try:
@@ -49,11 +49,10 @@ def historical_detail_report(client: Client, engagement_type: str) -> list[dict]
 
 
 def historical_queue_report(
-    client: Client, engagement_type: str, interval: str
+    client: Client, engagement_type: str, interval: str, date_range: tuple
 ) -> list[dict]:
     if engagement_type not in ENGAGEMENT_TYPES or interval not in INTERVALS:
         raise ValueError("Please check your interval or engagement type.")
-        exit(1)
     output = []
     endpoint = f"{client.base_url}/contact_center/analytics/historical/queues/metrics"
     headers = {"Authorization": f"Bearer {client.token}"}
@@ -62,8 +61,8 @@ def historical_queue_report(
         "page_size": 100,
         "channel_types": [engagement_type],
         "interval": interval,
-        "from": "2023-05-01",
-        "to": "2023-05-31",
+        "from": date_range[0],
+        "to": date_range[1],
     }
     while True:
         try:
