@@ -67,11 +67,6 @@ def mongo_upload_detail_report(client: MongoClient, data: list[dict]) -> None:
             client.databases["queue_detail_sms"].collection.insert_many(data["sms"])
         except errors.BulkWriteError as err:
             print(json.dumps(json.loads(json_util.dumps(err.details)), indent=4))
-    # try:
-    #     for engagement_type, database in client.databases.items():
-    #         database.collection.insert_many(data[engagement_type])
-    # except errors.BulkWriteError as err:
-    #     print(json.dumps(json.loads(json_util.dumps(err.details)), indent=4))
 
 
 def main() -> None:
